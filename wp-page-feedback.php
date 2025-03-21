@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP Page Feedback Annotator
  * Description: Allow clients to click on any page element and submit feedback, stored in WP Admin.
- * Version: 1.0.3
+ * Version: 1.0.4
  * Author: John Cris Lasta
  */
 
