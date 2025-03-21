@@ -16,11 +16,15 @@ jQuery(document).ready(function($) {
             return;
         }
 
-        e.preventDefault();
         e.stopPropagation();
+
+        if ($(this).parents('#wpadminbar').length) return;
+
+        e.preventDefault();
 
         if ($(this).is('#start-feedback')) return;
         if ($(this).is('#review-feedback')) return;
+
 
         const selector = getDomSelector(this);
         const comment = prompt('Enter your feedback for this element:');

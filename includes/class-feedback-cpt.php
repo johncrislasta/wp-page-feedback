@@ -5,7 +5,7 @@ add_action('init', function() {
 		'labels' => [
 			'name'                  => 'Page Feedback',
 			'singular_name'         => 'Feedback',
-			'menu_name'             => 'Page Feedback',
+			'menu_name'             => 'Feedback',
 			'name_admin_bar'        => 'Feedback',
 			'add_new'               => 'Add New Feedback',
 			'add_new_item'          => 'Add New Feedback',

@@ -21,7 +21,8 @@
     z-index: 9999;
 }
 
-.wp-page-feedback-enabled *:hover:not(#start-feedback, #review-feedback) {
+.wp-page-feedback-enabled *:hover:not(#start-feedback):not(#review-feedback):not(#wpadminbar):not(#wpadminbar *)
+{
     outline: 2px dashed rgba(255, 0, 0, 0.3);
     box-shadow: inset 100vw 100vh 0 rgba(255, 0, 0, 0.03) !important;
     cursor: help;
