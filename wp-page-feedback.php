@@ -186,7 +186,6 @@ add_action('admin_enqueue_scripts', function($hook) {
 // Make "Page" and "Resolved" Columns Sortable
 add_filter('manage_edit-page_feedback_sortable_columns', function($columns) {
 	$columns['page_url'] = 'page_url';
-	$columns['resolved'] = 'resolved';
 	return $columns;
 });
 
@@ -197,10 +196,6 @@ add_action('pre_get_posts', function($query) {
 	if ($query->get('post_type') === 'page_feedback') {
 		if ($query->get('orderby') === 'page_url') {
 			$query->set('meta_key', 'page_url');
-			$query->set('orderby', 'meta_value');
-		}
-		if ($query->get('orderby') === 'resolved') {
-			$query->set('meta_key', 'wp_pf_resolved');
 			$query->set('orderby', 'meta_value');
 		}
 	}
