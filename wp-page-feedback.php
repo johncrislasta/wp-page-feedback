@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP Page Feedback Annotator
  * Description: Allow clients to click on any page element and submit feedback, stored in WP Admin.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: John Cris Lasta
  */
 
@@ -14,16 +14,16 @@ define('WP_PF_PATH', plugin_dir_path(__FILE__));
 require_once WP_PF_PATH . 'includes/class-feedback-cpt.php';
 
 // Auto-Updater: GitHub Integration
-require_once plugin_dir_path(__FILE__) . 'vendor/plugin-update-checker/plugin-update-checker.php';
+require_once plugin_dir_path(__FILE__) . 'vendor/yahnis-elsts/plugin-update-checker/plugin-update-checker.php';
 
-$updateChecker = Puc_v4_Factory::buildUpdateChecker(
-	'https://github.com/your-username/wp-page-feedback', // Replace with your repo
+$updateChecker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
+	'https://github.com/johncrislasta/wp-page-feedback', // Replace with your repo
 	__FILE__,
 	'wp-page-feedback'
 );
 
 // Optional: If your main branch is "main" or "master"
-$updateChecker->setBranch('main');
+$updateChecker->setBranch('master');
 
 // Enqueue assets
 add_action('wp_enqueue_scripts', function() {
