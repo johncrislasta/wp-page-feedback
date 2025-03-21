@@ -1,0 +1,33 @@
+.feedback-highlight {
+    outline: 2px dashed red;
+}
+
+.wp-pf-highlight {
+    outline: 2px dashed red;
+    position: relative;
+    cursor: pointer;
+}
+
+.wp-pf-highlight:hover::after {
+    content: attr(title);
+    position: absolute;
+    background: #333;
+    color: #fff;
+    padding: 5px 8px;
+    border-radius: 4px;
+    top: -40px;
+    left: 0;
+    white-space: nowrap;
+    z-index: 9999;
+}
+
+.wp-page-feedback-enabled *:hover:not(#start-feedback, #review-feedback) {
+    outline: 2px dashed rgba(255, 0, 0, 0.3);
+    box-shadow: inset 100vw 100vh 0 rgba(255, 0, 0, 0.03) !important;
+    cursor: help;
+}
+
+.elementor-editor-active #start-feedback,
+.elementor-editor-active #review-feedback {
+    display: none;
+}
