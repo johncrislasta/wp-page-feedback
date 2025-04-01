@@ -21,6 +21,12 @@ $per_page = 20;
 $current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
 $offset = ($current_page - 1) * $per_page;
 
+// Initialize nonce for JavaScript
+wp_localize_script('wp-pf-admin-js', 'WP_PF_ADMIN', [
+    'ajax_url' => admin_url('admin-ajax.php'),
+    'nonce' => wp_create_nonce('wp_page_feedback_nonce')
+]);
+
 $status_filter = isset($_GET['status']) ? sanitize_text_field($_GET['status']) : '';
 $where = '';
 $params = [];

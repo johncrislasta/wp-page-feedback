@@ -24,7 +24,8 @@ document.querySelectorAll('.wp-pf-status-select').forEach(select => {
     select.previousElementSibling?.setAttribute('data-status', currentStatus);
 
     select.addEventListener('change', async function() {
-        const feedbackId = this.dataset.id;
+        
+        const feedbackId = this.dataset.feedbackId;
         const newStatus = this.value;
         
         try {
@@ -32,10 +33,10 @@ document.querySelectorAll('.wp-pf-status-select').forEach(select => {
                 action: 'wp_page_feedback_update_status',
                 feedback_id: feedbackId,
                 status: newStatus,
-                _ajax_nonce: wpPageFeedback.nonce
+                _ajax_nonce: WP_PF_ADMIN.nonce
             });
             
-            const response = await fetch(wpPageFeedback.ajaxurl, {
+            const response = await fetch(WP_PF_ADMIN.ajax_url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -44,7 +45,7 @@ document.querySelectorAll('.wp-pf-status-select').forEach(select => {
                     action: 'wp_page_feedback_update_status',
                     feedback_id: feedbackId,
                     status: newStatus,
-                    _ajax_nonce: wpPageFeedback.nonce
+                    _ajax_nonce: WP_PF_ADMIN.nonce
                 })
             });
 

@@ -159,7 +159,8 @@ class WP_Page_Feedback {
         $result = $wpdb->insert(
             $table_name,
             $data,
-            ['%s', '%d', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%d', '%d']
+            ['%s', '%d', '%s', '%s', '%s',
+             '%s', '%d', '%d', '%s', '%d', '%d']
         );
         
         if ($result === false) {
@@ -229,30 +230,30 @@ class WP_Page_Feedback {
 
         $feedback_id = absint($_POST['feedback_id']);
         $success = $this->model->update($feedback_id, ['status' => 'resolved']);
-
+        
         if ($success) {
             wp_send_json_success('Marked as resolved');
         } else {
             wp_send_json_error('Failed to mark as resolved');
         }
     }
-
+    
     public function ajax_update_status() {
         if (!check_ajax_referer('wp_page_feedback_nonce', '_ajax_nonce', false)) {
             wp_send_json_error('Invalid nonce');
         }
-
+        
         if (!current_user_can('edit_pages')) {
             wp_send_json_error('Permission denied');
         }
-
+        
         if (!isset($_POST['feedback_id']) || !isset($_POST['status'])) {
             wp_send_json_error('Missing required fields');
         }
-
+        
         $feedback_id = intval($_POST['feedback_id']);
         $new_status = sanitize_text_field($_POST['status']);
-
+        
         // Get current status before update
         global $wpdb;
         $table_name = $wpdb->prefix . 'page_feedbacks';
@@ -282,7 +283,7 @@ class WP_Page_Feedback {
                 'details' => 'Please try again or contact the administrator if the problem persists.'
             ]);
         }
-
+        
         // Send notification for status change
         if ($old_status !== $new_status) {
             WP_Page_Feedback_Notifications::get_instance()->notify_status_change($feedback_id, $old_status, $new_status);

@@ -261,7 +261,7 @@ jQuery(document).ready(function($) {
                         console.log(selector);
                         const $el = $(selector).first();
                         if ($el.length) {
-                            $el.addClass('wp-pf-highlight  ' + fb.action_type)
+                            $el.addClass('wp-pf-highlight ' + fb.action_type)
                                 .attr('title', fb.comment);
                         }
                     });
