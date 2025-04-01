@@ -255,12 +255,11 @@ class WP_Page_Feedback {
         $new_status = sanitize_text_field($_POST['status']);
         
         // Get current status before update
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'page_feedbacks';
-        $old_status = $wpdb->get_var($wpdb->prepare(
-            "SELECT status FROM {$table_name} WHERE id = %d",
-            $feedback_id
-        ));
+        $feedback = $this->model->get($feedback_id);
+        if (!$feedback) {
+            wp_send_json_error('Feedback not found');
+        }
+        $old_status = $feedback->status;
 
         // Validate status
         $valid_statuses = ['pending', 'in_progress', 'reviewing', 'approved', 'rejected', 'resolved', 'deferred'];
@@ -268,18 +267,13 @@ class WP_Page_Feedback {
             wp_send_json_error('Invalid status');
         }
 
-        $result = $wpdb->update(
-            $table_name,
-            ['status' => $new_status],
-            ['id' => $feedback_id],
-            ['%s'],
-            ['%d']
-        );
+        $result = $this->model->update($feedback_id, ['status' => $new_status]);
 
         if ($result === false) {
+            // The model handles the error logging if $wpdb->last_error is set
             wp_send_json_error([
                 'message' => 'Failed to update status',
-                'error' => $wpdb->last_error,
+                'error' => $this->model->get_last_error(),
                 'details' => 'Please try again or contact the administrator if the problem persists.'
             ]);
         }

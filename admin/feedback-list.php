@@ -19,7 +19,19 @@ if (isset($_POST['action']) && isset($_POST['feedback'])) {
 // Get feedbacks with pagination
 $per_page = 20;
 $current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
-$offset = ($current_page - 1) * $per_page;
+$status_filter = isset($_GET['status']) ? sanitize_text_field($_GET['status']) : '';
+
+// Use the model to get paged feedbacks
+$paged_data = $model->get_paged_feedbacks([
+    'per_page' => $per_page,
+    'current_page' => $current_page,
+    'status' => $status_filter
+]);
+
+$feedbacks = $paged_data['feedbacks'];
+$total_items = $paged_data['total_items'];
+
+$total_pages = ceil($total_items / $per_page);
 
 // Initialize nonce for JavaScript
 wp_localize_script('wp-pf-admin-js', 'WP_PF_ADMIN', [
@@ -27,47 +39,8 @@ wp_localize_script('wp-pf-admin-js', 'WP_PF_ADMIN', [
     'nonce' => wp_create_nonce('wp_page_feedback_nonce')
 ]);
 
-$status_filter = isset($_GET['status']) ? sanitize_text_field($_GET['status']) : '';
-$where = '';
-$params = [];
+$status_info = $model->get_status_info();
 
-global $wpdb;
-$table_name = $wpdb->prefix . 'page_feedbacks';
-
-// Build query based on filters
-if ($status_filter) {
-    $total_items = $wpdb->get_var(
-        $wpdb->prepare(
-            "SELECT COUNT(*) FROM $table_name WHERE status = %s",
-            $status_filter
-        )
-    );
-    
-    $feedbacks = $wpdb->get_results(
-        $wpdb->prepare(
-            "SELECT f.*, u.display_name as assigned_name 
-             FROM $table_name f 
-             LEFT JOIN {$wpdb->users} u ON f.assigned_id = u.ID 
-             WHERE f.status = %s 
-             ORDER BY f.date_created DESC LIMIT %d OFFSET %d",
-            array_merge([$status_filter], [$per_page, $offset])
-        )
-    );
-} else {
-    $total_items = $wpdb->get_var("SELECT COUNT(*) FROM $table_name");
-    
-    $feedbacks = $wpdb->get_results(
-        $wpdb->prepare(
-            "SELECT f.*, u.display_name as assigned_name 
-             FROM $table_name f 
-             LEFT JOIN {$wpdb->users} u ON f.assigned_id = u.ID 
-             ORDER BY f.date_created DESC LIMIT %d OFFSET %d",
-            [$per_page, $offset]
-        )
-    );
-}
-
-$total_pages = ceil($total_items / $per_page);
 ?>
 
 <div class="wrap">
@@ -136,46 +109,9 @@ $total_pages = ceil($total_items / $per_page);
                         </td>
                         <td class="column-status">
                             <div class="wp-pf-status-wrapper">
-                                <span class="wp-pf-status-icon dashicons dashicons-marker" data-status="<?php echo esc_attr($feedback->status); ?>"></span>
+                                <span class="wp-pf-status-icon dashicons dashicons-<?php echo esc_attr($status_info[$feedback->status]['icon']); ?>" data-status="<?php echo esc_attr($feedback->status); ?>"></span>
                                 <select class="wp-pf-status-select" data-feedback-id="<?php echo esc_attr($feedback->id); ?>" data-status="<?php echo esc_attr($feedback->status); ?>">
                                     <?php 
-                                    $status_info = [
-                                        'pending' => [
-                                            'icon' => 'clock',
-                                            'label' => 'Pending',
-                                            'class' => 'pending'
-                                        ],
-                                        'in_progress' => [
-                                            'icon' => 'controls-play',
-                                            'label' => 'In Progress',
-                                            'class' => 'in-progress'
-                                        ],
-                                        'reviewing' => [
-                                            'icon' => 'search',
-                                            'label' => 'Under Review',
-                                            'class' => 'reviewing'
-                                        ],
-                                        'approved' => [
-                                            'icon' => 'yes-alt',
-                                            'label' => 'Approved',
-                                            'class' => 'approved'
-                                        ],
-                                        'rejected' => [
-                                            'icon' => 'no-alt',
-                                            'label' => 'Rejected',
-                                            'class' => 'rejected'
-                                        ],
-                                        'resolved' => [
-                                            'icon' => 'yes-alt',
-                                            'label' => 'Resolved',
-                                            'class' => 'resolved'
-                                        ],
-                                        'deferred' => [
-                                            'icon' => 'backup',
-                                            'label' => 'Deferred',
-                                            'class' => 'deferred'
-                                        ]
-                                    ];
                                     foreach ($status_info as $status => $information): ?>
                                         <option value="<?php echo esc_attr($status); ?>" <?php selected($feedback->status, $status); ?> class="status-<?php echo esc_attr($information['class']); ?>">
                                             <?php echo esc_html($information['label']); ?>
