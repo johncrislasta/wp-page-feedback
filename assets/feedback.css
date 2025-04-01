@@ -2,10 +2,66 @@
     outline: 2px dashed red;
 }
 
+
+.wp-page-feedback-enabled *:hover:not(#start-feedback):not(#review-feedback):not(#wpadminbar):not(#wpadminbar *):not(.wp-pf-modal):not(.wp-pf-modal *)
+{
+    outline: 2px dashed rgba(0, 0, 0, 0.3);
+    box-shadow: inset 100vw 100vh 0 rgba(0, 0, 0, 0.03);
+    cursor: help;
+}
+
 .wp-pf-highlight {
     outline: 2px dashed red;
     position: relative;
     cursor: pointer;
+}
+
+.wp-pf-highlight.pending {
+    outline-color: #ff9800 !important;
+}
+
+.wp-pf-highlight.in-progress {
+    outline-color: #0073aa !important;
+}
+
+.wp-pf-highlight.reviewing {
+    outline-color: #1a73e8 !important;
+}
+
+.wp-pf-highlight.approved {
+    outline-color: #2e7d32 !important;
+}
+
+.wp-pf-highlight.rejected {
+    outline-color: #c62828 !important;
+}
+
+.wp-pf-highlight.resolved {
+    outline-color: #0a7d1a !important;
+}
+
+.wp-pf-highlight.deferred {
+    outline-color: #996b00 !important;
+}
+
+.wp-pf-highlight.add {
+    box-shadow: inset 100vw 100vh 0 rgba(0, 116, 170, 0.03) !important;
+    outline-color: rgb(0, 116, 170) !important;
+}
+
+.wp-pf-highlight.edit {
+    box-shadow: inset 100vw 100vh 0 rgba(26, 115, 232, 0.03) !important;
+    outline-color: rgb(26, 115, 232) !important;
+}
+
+.wp-pf-highlight.delete {
+    box-shadow: inset 100vw 100vh 0 rgba(198, 40, 40, 0.03) !important;
+    outline-color: rgb(198, 40, 40) !important;
+}
+
+.wp-pf-highlight.other {
+    box-shadow: inset 100vw 100vh 0 rgba(153, 107, 0, 0.03) !important;
+    outline-color: rgb(153, 107, 0) !important;
 }
 
 .wp-pf-highlight:hover::after {
@@ -21,14 +77,309 @@
     z-index: 9999;
 }
 
-.wp-page-feedback-enabled *:hover:not(#start-feedback):not(#review-feedback):not(#wpadminbar):not(#wpadminbar *)
-{
-    outline: 2px dashed rgba(255, 0, 0, 0.3);
-    box-shadow: inset 100vw 100vh 0 rgba(255, 0, 0, 0.03) !important;
-    cursor: help;
+.wp-page-feedback-enabled * {
+    cursor: pointer !important;
 }
 
-.elementor-editor-active #start-feedback,
-.elementor-editor-active #review-feedback {
+/* Modal styles */
+.wp-pf-modal {
     display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.wp-pf-modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    max-width: 500px;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.wp-pf-modal h2 {
+    margin: 0 0 20px 0;
+    font-size: 1.5em;
+    color: #1e1e1e;
+}
+
+.wp-pf-form-group {
+    margin-bottom: 15px;
+}
+
+.wp-pf-form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #1e1e1e;
+}
+
+.wp-pf-form-group select,
+.wp-pf-form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.wp-pf-form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.wp-pf-modal-actions {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.wp-pf-modal-actions button {
+    padding: 8px 16px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.wp-pf-modal-actions .wp-pf-cancel {
+    background-color: #f0f0f1;
+    color: #1e1e1e;
+}
+
+.wp-pf-modal-actions .wp-pf-submit {
+    background-color: #007cba;
+    color: #fff;
+}
+
+.wp-pf-modal-actions button:hover {
+    opacity: 0.9;
+}
+
+#start-feedback {
+    background-color: #007cba;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+#start-feedback:hover {
+    background-color: #006ba1;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+}
+
+/* Status styles */
+.wp-pf-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.wp-pf-status.pending {
+    background-color: #fff8e5;
+    color: #996b00;
+}
+
+.wp-pf-status.in-progress {
+    background-color: #e6f6ff;
+    color: #0073aa;
+}
+
+.wp-pf-status.reviewing {
+    background-color: #f0f6fc;
+    color: #1a73e8;
+}
+
+.wp-pf-status.approved {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.wp-pf-status.rejected {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.wp-pf-status.resolved {
+    background-color: #edfaef;
+    color: #0a7d1a;
+}
+
+.wp-pf-status.deferred {
+    background-color: #f3e5f5;
+    color: #7b1fa2;
+}
+
+.wp-pf-status .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+}
+
+.wp-pf-status .wp-pf-resolve-btn {
+    margin-left: 8px;
+    background-color: #fff;
+    border: 1px solid currentColor;
+    color: inherit;
+    font-size: 12px;
+    padding: 2px 8px;
+    height: auto;
+    line-height: 1.5;
+    opacity: 0.8;
+}
+
+.wp-pf-status .wp-pf-resolve-btn:hover {
+    background-color: currentColor;
+    color: #fff;
+    opacity: 1;
+}
+
+/* Status dropdown styles */
+.wp-pf-status-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 8px;
+}
+
+.wp-pf-status-select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 6px 30px 6px 8px !important;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-weight: 500;
+    cursor: pointer;
+    background-color: #fff;
+    min-width: 140px;
+    flex: 1;
+    margin: 0 !important;
+}
+
+.wp-pf-status-icon {
+    position: static !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px !important;
+    width: 16px !important;
+    height: 16px !important;
+    margin: 0 !important;
+    order: -1; /* Move icon to the left */
+}
+
+/* Add a custom dropdown arrow */
+.wp-pf-status-wrapper::after {
+    content: '';
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #666;
+    pointer-events: none;
+}
+
+/* Status-specific colors */
+.wp-pf-status-select option.status-pending {
+    background-color: #fff8e5;
+    color: #996b00;
+}
+
+.wp-pf-status-select option.status-in-progress {
+    background-color: #e6f6ff;
+    color: #0073aa;
+}
+
+.wp-pf-status-select option.status-reviewing {
+    background-color: #f0f6fc;
+    color: #1a73e8;
+}
+
+.wp-pf-status-select option.status-approved {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.wp-pf-status-select option.status-rejected {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.wp-pf-status-select option.status-resolved {
+    background-color: #edfaef;
+    color: #0a7d1a;
+}
+
+.wp-pf-status-select option.status-deferred {
+    background-color: #f3e5f5;
+    color: #7b1fa2;
+}
+
+/* Color the select based on current status */
+.wp-pf-status-select[data-status="pending"],
+.wp-pf-status-icon[data-status="pending"] {
+    color: #996b00;
+}
+
+.wp-pf-status-select[data-status="in_progress"],
+.wp-pf-status-icon[data-status="in_progress"] {
+    color: #0073aa;
+}
+
+.wp-pf-status-select[data-status="reviewing"],
+.wp-pf-status-icon[data-status="reviewing"] {
+    color: #1a73e8;
+}
+
+.wp-pf-status-select[data-status="approved"],
+.wp-pf-status-icon[data-status="approved"] {
+    color: #2e7d32;
+}
+
+.wp-pf-status-select[data-status="rejected"],
+.wp-pf-status-icon[data-status="rejected"] {
+    color: #c62828;
+}
+
+.wp-pf-status-select[data-status="resolved"],
+.wp-pf-status-icon[data-status="resolved"] {
+    color: #0a7d1a;
+}
+
+.wp-pf-status-select[data-status="deferred"],
+.wp-pf-status-icon[data-status="deferred"] {
+    color: #7b1fa2;
+}
+
+/* Add hover effect */
+.wp-pf-status-select:hover {
+    border-color: currentColor;
+}
+
+/* Style the table cell */
+.wp-list-table td.column-status {
+    padding: 0 !important;
+    vertical-align: middle;
 }

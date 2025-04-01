@@ -1,0 +1,173 @@
+/* Status dropdown styles */
+.wp-pf-status-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.wp-pf-status-select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 6px 30px 6px 8px !important;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-weight: 500;
+    cursor: pointer;
+    background-color: #fff;
+    flex: 1;
+    margin: 0 !important;
+}
+
+.wp-pf-status-icon {
+    position: static !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px !important;
+    width: 16px !important;
+    height: 16px !important;
+    margin: 0 !important;
+    order: -1; /* Move icon to the left */
+}
+
+/* Status-specific colors */
+.wp-pf-status-select option.status-pending {
+    background-color: #fff8e5;
+    color: #996b00;
+}
+
+.wp-pf-status-select option.status-in-progress {
+    background-color: #e6f6ff;
+    color: #0073aa;
+}
+
+.wp-pf-status-select option.status-reviewing {
+    background-color: #f0f6fc;
+    color: #1a73e8;
+}
+
+.wp-pf-status-select option.status-approved {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.wp-pf-status-select option.status-rejected {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.wp-pf-status-select option.status-resolved {
+    background-color: #edfaef;
+    color: #0a7d1a;
+}
+
+.wp-pf-status-select option.status-deferred {
+    background-color: #f3e5f5;
+    color: #7b1fa2;
+}
+
+/* Color the select based on current status */
+.wp-pf-status-select[data-status="pending"],
+.wp-pf-status-icon[data-status="pending"] {
+    color: #996b00;
+}
+
+.wp-pf-status-select[data-status="in_progress"],
+.wp-pf-status-icon[data-status="in_progress"] {
+    color: #0073aa;
+}
+
+.wp-pf-status-select[data-status="reviewing"],
+.wp-pf-status-icon[data-status="reviewing"] {
+    color: #1a73e8;
+}
+
+.wp-pf-status-select[data-status="approved"],
+.wp-pf-status-icon[data-status="approved"] {
+    color: #2e7d32;
+}
+
+.wp-pf-status-select[data-status="rejected"],
+.wp-pf-status-icon[data-status="rejected"] {
+    color: #c62828;
+}
+
+.wp-pf-status-select[data-status="resolved"],
+.wp-pf-status-icon[data-status="resolved"] {
+    color: #0a7d1a;
+}
+
+.wp-pf-status-select[data-status="deferred"],
+.wp-pf-status-icon[data-status="deferred"] {
+    color: #7b1fa2;
+}
+
+/* Add hover effect */
+.wp-pf-status-select:hover {
+    border-color: currentColor;
+}
+
+/* Style the table cell */
+.wp-list-table td.column-status {
+    padding: 0 !important;
+    vertical-align: middle;
+}
+
+.wp-list-table td.column-status select {
+    width: 40px;
+}
+    
+/* Admin table styles */
+.wp-list-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.wp-list-table th {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #ccd0d4;
+}
+
+.wp-list-table td {
+    padding: 12px 8px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f0f0f1;
+}
+
+/* Action type badges */
+.wp-pf-action-type {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.wp-pf-action-type.add {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.wp-pf-action-type.edit {
+    background-color: #fff3e0;
+    color: #ef6c00;
+}
+
+.wp-pf-action-type.delete {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.wp-pf-action-type.other {
+    background-color: #f5f5f5;
+    color: #616161;
+}
+
+.wp-pf-device-info {
+    text-transform: capitalize;
+}
